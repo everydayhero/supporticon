@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import withForm from 'constructicon/with-form'
+import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
+import values from 'lodash/values'
 import form from './form'
 import { createPost } from '../../api/posts'
 import { uploadImage } from '../../api/images'
@@ -37,6 +39,13 @@ class CreatePostForm extends React.Component {
 
     form.submit().then(data =>
       Promise.resolve()
+        .then(
+          () =>
+            values(data).every(isEmpty) &&
+            Promise.reject({
+              message: 'Please include a message or an image or video.'
+            })
+        )
         .then(() => this.setState({ status: 'fetching' }))
         .then(() => data.image && uploadImage(data.image))
         .then(image =>

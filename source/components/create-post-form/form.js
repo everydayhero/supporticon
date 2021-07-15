@@ -1,19 +1,8 @@
-import * as validators from 'constructicon/lib/validators'
-
-export default ({ post }) => ({
+export default () => ({
   fields: {
     message: {
       label: 'Post an update',
-      type: 'contenteditable',
-      validators: [
-        (val, { image, video }) => {
-          if (!image && !video) {
-            return validators.required(
-              'Please include a message or an image or video.'
-            )(val)
-          }
-        }
-      ]
+      type: 'contenteditable'
     },
     image: {
       label: 'Attach an image'
